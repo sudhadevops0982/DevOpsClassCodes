@@ -16,4 +16,4 @@
   - name: Build the dockerfile
     command: chdir=/tmp/repo docker build -t myimage:ansible .
   - name: Run the image to create container
-    command: docker run --name myproj -itd -P myimage:ansible
+    command: docker run -itd -P myimage:ansible
