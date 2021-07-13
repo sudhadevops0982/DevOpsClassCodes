@@ -12,8 +12,8 @@
   - name: Start Docker
     service: name=docker state=started
   - name: clone the repo
-    git: repo=https://github.com/sudhadevops0982/DevOpsClassCodes.git dest=/tmp/repo1
+    git: repo=https://github.com/sudhadevops0982/DevOpsClassCodes.git dest=/tmp/repo
   - name: Build the dockerfile
-    command: chdir=/tmp/repo1 docker build -t myimage:ansible .
+    command: chdir=/tmp/repo docker build -t myimage:ansible .
   - name: Run the image to create container
     command: docker run -itd -P myimage:ansible
