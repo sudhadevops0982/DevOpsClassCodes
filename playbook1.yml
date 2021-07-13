@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: install Git,tree & Docker
+    yum: name={{item}} state=present
+    loop:
+    - git
+    - docker
+    - tree
+  - name: Start Docker
+    service: name=docker state=started
+  - name: clone the repo
+    git: repo=https://github.com/sudhadevops0982/DevOpsCertiProj.git dest=/tmp/repo
+  - name: Build the dockerfile
+    command: chdir=/tmp/repo docker build -t myimage:ansible .
+  - name: Run the image to create container
+    command: docker run --name myproj -itd -P myimage:ansible
