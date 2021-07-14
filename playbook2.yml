@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+  - name: install Git,tree & Docker
+    yum: name={{item}} state=present
+    loop:
+    - git
+    - docker
+    - tree
+  - name: Start Docker
+    service: name=docker state=started
+  - name: copy the file
+    copy: src=/var/lib/jenkins/workspace/Myprojectpipeline dest=/tmp/repo1
+  - name: Build the dockerfile
+    command: chdir=/tmp/repo1 docker build -t myimage:ansible .
+  - name: Run the image to create container
+    command: docker run -itd -P myimage:ansible
